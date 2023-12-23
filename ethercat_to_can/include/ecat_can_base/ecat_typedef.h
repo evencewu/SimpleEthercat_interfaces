@@ -44,22 +44,18 @@ namespace ecat
     /// @brief ecat pdo send data (master to slv)
     typedef struct Ecat_Outputs_Pack
     {
-        bool LED[8];
-        can_pack can[2];
+        uint8_t LED;
+        struct can_pack can[2];
         uint8_t null;
     } __attribute__((packed)) Ecat_Outputs_Pack;
 
     /// @brief ecat pdo recive data (slv to master)
     typedef struct Ecat_Inputs_Pack
     {
-        bool switch_io[8];
-        uint8_t null_1;
-        uint8_t null_2;
-        uint8_t null_3;
-        uint8_t null_4;
-        uint8_t null_5;
+        uint8_t switch_io;
+        uint8_t null[5];
 
-        can_pack can[2];
+        struct can_pack can[2];
     } __attribute__((packed)) Ecat_Inputs_Pack;
 //#endif
 

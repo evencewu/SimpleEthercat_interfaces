@@ -34,32 +34,33 @@ int main()
 
     for (int i = 0; i < 10000000; i++)
     {
-        // printf("loop\n");
-        Ethercat.packet_tx[0].LED[0] = 1;
-        Ethercat.packet_tx[0].LED[1] = 1;
 
-        //Motor6020[0].GM6020_can_set(&Ethercat.packet_tx[0], I_1);
-        Motor6020[1].GM6020_can_set(&Ethercat.packet_tx[0], 0);
+        // Motor6020[0].GM6020_can_set(&Ethercat.packet_tx[0], I_1);
+        //Motor6020[1].GM6020_can_set(&Ethercat.packet_tx[0], 0);
         Ethercat.EcatSyncMsg();
-        //Motor6020[0].GM6020_can_analyze(&Ethercat.packet_rx[0]);
-        Motor6020[1].GM6020_can_analyze(&Ethercat.packet_rx[0]);
+        // Motor6020[0].GM6020_can_analyze(&Ethercat.packet_rx[0]);
+        //Motor6020[1].GM6020_can_analyze(&Ethercat.packet_rx[0]);
 
-        //I_1 = (Motor6020[0].pos - Motor6020[1].pos) * kp - (Motor6020[0].pos - Motor6020[1].pos) * kd;
+        // I_1 = (Motor6020[0].pos - Motor6020[1].pos) * kp - (Motor6020[0].pos - Motor6020[1].pos) * kd;
 
-        //printf("%f\n", I_1);
-        //printf("%d\n", Motor6020[0].pos);
-        
+        // printf("%f\n", I_1);
+        // printf("%d\n", Motor6020[0].pos);
+
         printf("--------------------------------\n");
-        printf("0x%hX\n", Ethercat.packet_rx[0].can[0].null_1);
+        printf("0x%hX\n", Ethercat.packet_rx[0].switch_io);
+        printf("0x%hX\n", Ethercat.packet_rx[0].null[0]);
+        printf("0x%hX\n", Ethercat.packet_rx[0].null[1]);
+        printf("0x%hX\n", Ethercat.packet_rx[0].null[2]);
+        printf("0x%hX\n", Ethercat.packet_rx[0].null[3]);
+        printf("0x%hX\n", Ethercat.packet_rx[0].null[4]);
         printf("0x%hX\n", (__uint16_t)Ethercat.packet_rx[0].can[0].StdId);
-        //printf("0x%hX\n", Ethercat.packet_rx[0].can[1].DLC);
+        printf("0x%hX\n", (__uint16_t)Ethercat.packet_rx[0].can[0].DLC);
+        // printf("0x%hX\n", Ethercat.packet_rx[0].can[1].DLC);
 
         if (app_stopped)
         {
             break;
         }
-
-        
     }
 
     Ethercat.EcatStop();
