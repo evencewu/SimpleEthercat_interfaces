@@ -79,34 +79,36 @@ namespace ecat
     /// @param input_data  Pointer to the input data
     void EcatBase::EcatSyncMsg()
     {
-        if (ec_slave[0].state == EC_STATE_OPERATIONAL)
+        for (int slave_num = 1; slave_num <= 1; slave_num++)
         {
-            memcpy(ec_slave[0].outputs, &packet_tx, pdo_output_byte);
-
-            ec_send_processdata();
-
-            wkc = ec_receive_processdata(EC_TIMEOUTRET);
-
-            if (wkc >= expectedWKC)
+            if (ec_slave[slave_num].state == EC_STATE_OPERATIONAL)
             {
-                memcpy(&packet_rx, ec_slave[0].inputs, pdo_input_byte);
-            }
+                memcpy(ec_slave[slave_num].outputs, &packet_tx[slave_num -1], pdo_output_byte);
 
-            osal_usleep(500);
-        }
-        else
-        {
-            int i = 0;
-            printf("Not all slaves reached operational state.\n");
-            ec_readstate();
-            for (i = 1; i <= ec_slavecount; i++)
-            {
-                if (ec_slave[i].state != EC_STATE_OPERATIONAL)
+                ec_send_processdata();
+
+                wkc = ec_receive_processdata(EC_TIMEOUTRET);
+
+                if (wkc >= expectedWKC)
                 {
-                    printf("Slave %d State=0x%2.2x StatusCode=0x%4.4x : %s\n",
-                           i, ec_slave[i].state, ec_slave[i].ALstatuscode, ec_ALstatuscode2string(ec_slave[i].ALstatuscode));
+                    memcpy(&packet_rx[slave_num -1], ec_slave[slave_num].inputs, pdo_input_byte);
+                }                
+            }
+            else
+            {
+                int i = 0;
+                printf("Not all slaves reached operational state.\n");
+                ec_readstate();
+                for (i = 1; i <= ec_slavecount; i++)
+                {
+                    if (ec_slave[i].state != EC_STATE_OPERATIONAL)
+                    {
+                        printf("Slave %d State=0x%2.2x StatusCode=0x%4.4x : %s\n",
+                               i, ec_slave[i].state, ec_slave[i].ALstatuscode, ec_ALstatuscode2string(ec_slave[i].ALstatuscode));
+                    }
                 }
             }
+            osal_usleep(500);
         }
     }
 

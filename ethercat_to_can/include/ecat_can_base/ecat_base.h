@@ -24,8 +24,8 @@ namespace ecat
 
         void SetUserStop(void (*save_stop)());
 
-        Ecat_Outputs_Pack packet_tx;
-        Ecat_Inputs_Pack packet_rx;
+        Ecat_Outputs_Pack packet_tx[2];
+        Ecat_Inputs_Pack packet_rx[2];
     private:
         void (*UserStop)();
 
