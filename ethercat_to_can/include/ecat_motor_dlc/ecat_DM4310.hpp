@@ -1,8 +1,8 @@
 #ifndef __ECAT_DM4310__
 #define __ECAT_DM4310__
 
-#include "ecat_can_base/ecat_base.h"
-#include "ecat_can_base/ecat_typedef.h"
+#include "ecat_can_base/ecat_base.hpp"
+#include "ecat_can_base/ecat_typedef.hpp"
 
 #include <inttypes.h>
 

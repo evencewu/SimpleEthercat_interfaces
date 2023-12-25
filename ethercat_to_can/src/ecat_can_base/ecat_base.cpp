@@ -1,4 +1,4 @@
-#include "ecat_can_base/ecat_base.h"
+#include "ecat_can_base/ecat_base.hpp"
 
 #include <unistd.h>
 
@@ -83,7 +83,7 @@ namespace ecat
         {
             if (ec_slave[slave_num].state == EC_STATE_OPERATIONAL)
             {
-                memcpy(ec_slave[slave_num].outputs, &packet_tx[slave_num -1], pdo_output_byte);
+                memcpy(ec_slave[slave_num].outputs, &packet_tx[slave_num - 1], pdo_output_byte);
 
                 ec_send_processdata();
 
@@ -91,8 +91,8 @@ namespace ecat
 
                 if (wkc >= expectedWKC)
                 {
-                    memcpy(&packet_rx[slave_num -1], ec_slave[slave_num].inputs, pdo_input_byte);
-                }                
+                    memcpy(&packet_rx[slave_num - 1], ec_slave[slave_num].inputs, pdo_input_byte);
+                }
             }
             else
             {

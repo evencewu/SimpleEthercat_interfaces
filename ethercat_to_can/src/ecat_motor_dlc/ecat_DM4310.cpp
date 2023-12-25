@@ -1,4 +1,4 @@
-#include "ecat_motor_dlc/ecat_DM4310.h"
+#include "ecat_motor_dlc/ecat_DM4310.hpp"
 
 float uint_to_float(int x_int, float x_min, float x_max, int bits)
 {

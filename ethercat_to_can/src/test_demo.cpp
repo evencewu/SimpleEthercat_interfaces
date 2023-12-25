@@ -1,7 +1,7 @@
-#include "ecat_can_base/EcatBase.h"
-#include "ecat_can_base/ecat_typedef.h"
-#include "ecat_motor_dlc/ecat_DM4310.h"
-#include "ecat_motor_dlc/ecat_GM6020.h"
+#include "ecat_can_base/EcatBase.hpp"
+#include "ecat_can_base/ecat_typedef.hpp"
+#include "ecat_motor_dlc/ecat_DM4310.hpp"
+#include "ecat_motor_dlc/ecat_GM6020.hpp"
 
 #include <signal.h>
 #include <unistd.h>
