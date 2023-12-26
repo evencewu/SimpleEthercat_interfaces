@@ -53,9 +53,33 @@
 
 //===================
 
-float uint_to_float(int x_int, float x_min, float x_max, int bits);
-int float_to_uint(float x, float x_min, float x_max, int bits);
-void DM_can_set(uint8_t canid, ecat::Ecat_Outputs_Pack *pack, int mode, uint8_t id,float _pos, float _vel, float _KP, float _KD, float _torq);
+
+
+namespace ecat
+{
+    class DM4310dlc
+    {
+    public:
+        DM4310dlc(uint8_t can_id, uint32_t motor_id);
+
+        float uint_to_float(int x_int, float x_min, float x_max, int bits);
+        int float_to_uint(float x, float x_min, float x_max, int bits);
+        void DM_can_set(uint8_t canid, ecat::Ecat_Outputs_Pack *pack, int mode, uint8_t id,float _pos, float _vel, float _KP, float _KD, float _torq);
+
+        /* motor rx data*/
+        int16_t pos = 0;
+        int16_t vec = 0;
+        int16_t toq = 0;
+        int8_t temp = 0;
+    private:
+        /* can&motor port*/
+        uint8_t can_id;
+        uint32_t motor_id;
+
+        /* motor tx data*/
+        int16_t I = 0; // Electric current
+    };
+}
 
 
 #endif
