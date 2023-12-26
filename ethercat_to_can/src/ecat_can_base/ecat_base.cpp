@@ -15,13 +15,6 @@ namespace ecat
         // EcatStop();
     }
 
-    /// @brief Set up your safety stop function
-    /// @param save_stop Handle to a user-defined safe stop function
-    void EcatBase::SetUserStop(void (*save_stop)())
-    {
-        UserStop = save_stop;
-    }
-
     /// @brief Start your ecat port
     /// @param ifname Network port name
     void EcatBase::EcatStart(char *ifname)
@@ -115,7 +108,6 @@ namespace ecat
     /// @brief Stop the ecat connection and perform a secure stop before that
     void EcatBase::EcatStop()
     {
-        UserStop();
         printf("\nRequest init state for all slaves\n");
         ec_slave[0].state = EC_STATE_INIT;
         /* request INIT state for all slaves */

@@ -21,13 +21,10 @@ namespace ecat
         void EcatSyncMsg();
         void EcatStop();
 
-        void SetUserStop(void (*save_stop)());
-
         Ecat_Outputs_Pack packet_tx[2];
         Ecat_Inputs_Pack packet_rx[2];
 
     private:
-        void (*UserStop)();
 
         int pdo_output_byte = 30;
         int pdo_input_byte = 34;

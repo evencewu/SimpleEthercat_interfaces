@@ -24,7 +24,6 @@ int main()
 
     char phy[] = "enp5s0";
     Ethercat.EcatStart(phy);
-    Ethercat.SetUserStop(safe_stop);
 
     printf("start\n");
 
@@ -63,6 +62,7 @@ int main()
         }
     }
 
+    safe_stop();
     Ethercat.EcatStop();
 
     printf("stop");
