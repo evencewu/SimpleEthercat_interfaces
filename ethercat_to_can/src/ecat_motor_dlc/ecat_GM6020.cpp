@@ -8,20 +8,20 @@ namespace ecat
         this->motor_id = motor_id;
     }
 
-    void GM6020dlc::GM6020_can_set(Ecat_Outputs_Pack *pack,uint16_t I_)
+    void GM6020dlc::GM6020_can_set(Ecat_Outputs_Pack *pack,uint16_t I)
     {
         pack->can[can_id].DLC = 0x08;
         if (motor_id <= 4)
         {
             pack->can[can_id].StdId = GM6020_TAG1;
-            pack->can[can_id].Data[motor_id * 2 - 2] = I_ >> 8 & 0xFF;
-            pack->can[can_id].Data[motor_id * 2 - 1] = I_ & 0xFF;
+            pack->can[can_id].Data[motor_id * 2 - 2] = I >> 8 & 0xFF;
+            pack->can[can_id].Data[motor_id * 2 - 1] = I & 0xFF;
         }
         else
         {
             pack->can[can_id].StdId = GM6020_TAG2;
-            pack->can[can_id].Data[motor_id * 2 - 10] = I_ >> 8 & 0xFF;
-            pack->can[can_id].Data[motor_id * 2 - 9] = I_ & 0xFF;
+            pack->can[can_id].Data[motor_id * 2 - 10] = I >> 8 & 0xFF;
+            pack->can[can_id].Data[motor_id * 2 - 9] = I & 0xFF;
         }
     }
 
