@@ -9,15 +9,6 @@
 //--------//
 // DM4310 //
 //--------//
-#define DM4310_ID_1 1
-#define DM4310_ID_2 2
-#define DM4310_ID_3 3
-#define DM4310_ID_4 4
-#define DM4310_ID_5 5
-#define DM4310_ID_6 6
-#define DM4310_ID_7 7
-#define DM4310_ID_8 8
-
 #define SPEED_CTRL 0
 #define POS_CTRL 1
 #define MIT_CTRL 2
@@ -59,19 +50,20 @@ namespace ecat
     class DM4310dlc
     {
     public:
-        DM4310dlc(uint8_t can_id_, uint32_t motor_id_);
+        DM4310dlc(uint8_t _can_id, uint32_t _motor_id);
 
-        float uint_to_float(int x_int, float x_min, float x_max, int bits);
-        int float_to_uint(float x, float x_min, float x_max, int bits);
         void DM_can_set(ecat::Ecat_Outputs_Pack *pack, int mode,float _pos, float _vel, float _KP, float _KD, float _torq);
         void DM_can_analyze(Ecat_Inputs_Pack *pack);
 
         /* motor rx data*/
-        float pos = 0;
-        int16_t vec = 0;
-        int16_t toq = 0;
-        int8_t temp = 0;
+        float pos;
+        float vec;
+        float toq;
+        float temp_mos;
+        float temp;
     private:
+        float uint_to_float(int x_int, float x_min, float x_max, int bits);
+        int float_to_uint(float x, float x_min, float x_max, int bits);
         /* can&motor port*/
         uint8_t can_id;
         uint32_t motor_id;

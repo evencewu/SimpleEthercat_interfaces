@@ -41,7 +41,6 @@ int main()
         Ethercat.EcatSyncMsg();
         printf("----------------\n");
         printf("0x%hX\n", (__uint16_t)Ethercat.packet_rx[0].can[0].Data[0]);
-        // printf("0x%hX\n", (__uint16_t)Ethercat.packet_rx[0].can[0].DLC);
 
         if (app_stopped)
         {

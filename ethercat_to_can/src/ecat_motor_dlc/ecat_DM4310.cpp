@@ -2,10 +2,10 @@
 
 namespace ecat
 {
-    DM4310dlc::DM4310dlc(uint8_t can_id_, uint32_t motor_id_)
+    DM4310dlc::DM4310dlc(uint8_t _can_id, uint32_t _motor_id)
     {
-        this->can_id = can_id_;
-        this->motor_id = motor_id_;
+        this->can_id = _can_id;
+        this->motor_id = _motor_id;
     }
 
     float DM4310dlc::uint_to_float(int x_int, float x_min, float x_max, int bits)
@@ -160,11 +160,17 @@ namespace ecat
             pack->can[this->can_id].Data[7] = 0xFB;
         }
     }
+
     void DM4310dlc::DM_can_analyze(Ecat_Inputs_Pack *pack)
     {
-        if (pack->can[this->can_id].Data[0] == motor_id)
+        if (pack->can[this->can_id].StdId == 0)
         {
-            this->pos = (float)uint_to_float((uint16_t)pack->can[this->can_id].Data[1] << 8 | (uint16_t)pack->can[this->can_id].Data[2], -12.5, 12.5, 16);
+            if (pack->can[this->can_id].Data[0] == motor_id)
+            {
+                this->pos = (float)uint_to_float((uint16_t)pack->can[this->can_id].Data[1] << 8 | (uint16_t)pack->can[this->can_id].Data[2], POS_MIN, POS_MAX, 16);
+                this->vec = (float)uint_to_float(((uint16_t)pack->can[this->can_id].Data[3] << 4) | ((uint16_t)pack->can[this->can_id].Data[4] >> 4), DM_V_MIN, DM_V_MAX, 12);
+                this->toq = (float)uint_to_float((((uint16_t)pack->can[this->can_id].Data[4] & 0x0F) << 8) | ((uint16_t)pack->can[this->can_id].Data[5]), DM_T_MIN, DM_T_MAX, 12);
+            }
         }
     }
 }
