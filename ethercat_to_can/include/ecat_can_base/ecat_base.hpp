@@ -14,7 +14,7 @@ namespace ecat
     class EcatBase
     {
     public:
-        EcatBase();
+        EcatBase(int _slave_num);
         ~EcatBase();
 
         void EcatStart(char *ifname);
@@ -25,7 +25,7 @@ namespace ecat
         Ecat_Inputs_Pack packet_rx[2];
 
     private:
-
+        int slave_num = 1;
         int pdo_output_byte = 30;
         int pdo_input_byte = 34;
 

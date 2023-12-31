@@ -12,7 +12,7 @@ bool app_stopped = false;
 void sigint_handler(int sig);
 void safe_stop();
 
-ecat::EcatBase Ethercat;
+ecat::EcatBase Ethercat(2);
 
 std::array<ecat::GM6020dlc, 2> Motor6020 = {
     ecat::GM6020dlc(CAN2, 2),

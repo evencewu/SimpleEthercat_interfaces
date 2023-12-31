@@ -4,8 +4,9 @@
 
 namespace ecat
 {
-    EcatBase::EcatBase()
+    EcatBase::EcatBase(int _slave_num)
     {
+        this->slave_num = _slave_num;
         memset(&packet_tx, 0, sizeof(Ecat_Outputs_Pack));
         memset(&packet_rx, 0, sizeof(Ecat_Inputs_Pack));
     }
@@ -72,37 +73,49 @@ namespace ecat
     /// @param input_data  Pointer to the input data
     void EcatBase::EcatSyncMsg()
     {
-        for (int slave_num = 1; slave_num <= 1; slave_num++)
+        bool state_flag = true;
+        for (int slave = 1; slave <= slave_num; slave++)
         {
-            if (ec_slave[slave_num].state == EC_STATE_OPERATIONAL)
+            if (ec_slave[slave].state != EC_STATE_OPERATIONAL)
             {
-                memcpy(ec_slave[slave_num].outputs, &packet_tx[slave_num - 1], pdo_output_byte);
-
-                ec_send_processdata();
-
-                wkc = ec_receive_processdata(EC_TIMEOUTRET);
-
-                if (wkc >= expectedWKC)
-                {
-                    memcpy(&packet_rx[slave_num - 1], ec_slave[slave_num].inputs, pdo_input_byte);
-                }
+                state_flag = false;
             }
-            else
-            {
-                int i = 0;
-                printf("Not all slaves reached operational state.\n");
-                ec_readstate();
-                for (i = 1; i <= ec_slavecount; i++)
-                {
-                    if (ec_slave[i].state != EC_STATE_OPERATIONAL)
-                    {
-                        printf("Slave %d State=0x%2.2x StatusCode=0x%4.4x : %s\n",
-                               i, ec_slave[i].state, ec_slave[i].ALstatuscode, ec_ALstatuscode2string(ec_slave[i].ALstatuscode));
-                    }
-                }
-            }
-            osal_usleep(500);
         }
+
+        if (state_flag == true)
+        {
+            for (int slave = 1; slave <= slave_num; slave++)
+            {
+                memcpy(ec_slave[slave].outputs, &packet_tx[slave - 1], pdo_output_byte);
+            }
+
+            ec_send_processdata();
+
+            wkc = ec_receive_processdata(EC_TIMEOUTRET);
+
+            if (wkc >= expectedWKC)
+            {
+                for (int slave = 1; slave <= slave_num; slave++)
+                {
+                    memcpy(&packet_rx[slave - 1], ec_slave[slave].inputs, pdo_input_byte);
+                }
+            }
+        }
+        else
+        {
+            int i = 0;
+            printf("Not all slaves reached operational state.\n");
+            ec_readstate();
+            for (i = 1; i <= ec_slavecount; i++)
+            {
+                if (ec_slave[i].state != EC_STATE_OPERATIONAL)
+                {
+                    printf("Slave %d State=0x%2.2x StatusCode=0x%4.4x : %s\n",
+                           i, ec_slave[i].state, ec_slave[i].ALstatuscode, ec_ALstatuscode2string(ec_slave[i].ALstatuscode));
+                }
+            }
+        }
+        osal_usleep(500);
     }
 
     /// @brief Stop the ecat connection and perform a secure stop before that
