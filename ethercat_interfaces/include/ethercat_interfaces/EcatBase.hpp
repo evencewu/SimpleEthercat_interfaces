@@ -5,7 +5,9 @@
 #include <inttypes.h>
 
 #include "soem_ros2/soem.h"
-#include "ecat_can_base/ecat_typedef.hpp"
+#include "TypeDef.hpp"
+
+#include "rclcpp/rclcpp.hpp"
 
 #define EC_VER1
 
@@ -17,18 +19,17 @@ namespace ecat
         EcatBase(int _slave_num);
         ~EcatBase();
 
-        void EcatStart(char *ifname);
-        void EcatSyncMsg();
+        bool EcatStart(char *ifname);
+        bool EcatSyncMsg();
         void EcatStop();
 
-        Ecat_Outputs_Pack packet_tx[2];
-        Ecat_Inputs_Pack packet_rx[2];
+        Ecat_Outputs_Pack packet_tx[128];
+        Ecat_Inputs_Pack packet_rx[128];
 
     private:
         int slave_num = 1;
-        int pdo_output_byte = 30;
-        int pdo_input_byte = 34;
-
+        int pdo_output_byte = 40;//30
+        int pdo_input_byte = 40;//34
         char IOmap[4096];
         volatile int wkc;
         int expectedWKC;
