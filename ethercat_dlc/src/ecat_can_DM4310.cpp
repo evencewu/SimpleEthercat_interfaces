@@ -1,4 +1,4 @@
-#include "ecat_motor_dlc/ecat_DM4310.hpp"
+#include "ethercat_dlc/ecat_can_DM4310.hpp"
 
 namespace ecat
 {

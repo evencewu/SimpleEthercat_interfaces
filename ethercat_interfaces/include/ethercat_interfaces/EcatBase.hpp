@@ -17,7 +17,7 @@ namespace ecat
     {
     public:
         EcatBase(int _slave_num);
-        ~EcatBase();
+        ~EcatBase() = default;
 
         bool EcatStart(char *ifname);
         bool EcatSyncMsg();
@@ -28,8 +28,8 @@ namespace ecat
 
     private:
         int slave_num = 1;
-        int pdo_output_byte = 40;//30
-        int pdo_input_byte = 40;//34
+        int pdo_output_byte = sizeof(Ecat_Outputs_Pack);//30
+        int pdo_input_byte = sizeof(Ecat_Outputs_Pack);//34
         char IOmap[4096];
         volatile int wkc;
         int expectedWKC;

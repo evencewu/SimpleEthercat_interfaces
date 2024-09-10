@@ -1,4 +1,4 @@
-#include "ecat_motor_dlc/ecat_GM6020.hpp"
+#include "ethercat_dlc/ecat_can_GM6020.hpp"
 
 namespace ecat
 {

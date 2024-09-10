@@ -1,8 +1,9 @@
 #ifndef __ECAT_GM6020__
 #define __ECAT_GM6020__
 
-#include "ecat_can_base/ecat_base.hpp"
-#include "ecat_can_base/ecat_typedef.hpp"
+#include "ethercat_interfaces/EcatBase.hpp"
+#include "ethercat_interfaces/TypeDef.hpp"
+
 
 #include <inttypes.h>
 

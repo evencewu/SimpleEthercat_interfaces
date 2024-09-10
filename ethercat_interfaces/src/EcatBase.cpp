@@ -118,7 +118,7 @@ namespace ecat
             }
             return false;
         }
-        osal_usleep(750);
+        osal_usleep(200);
     }
 
     /// @brief Stop the ecat connection and perform a secure stop before that
