@@ -78,7 +78,7 @@ private:
 
     void Init()
     {
-        char phy[] = "enp3s0";
+        char phy[] = "enp5s0";
         Ethercat.EcatStart(phy);
     }
 

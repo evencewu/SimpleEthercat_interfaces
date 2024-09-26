@@ -103,7 +103,7 @@ namespace ecat
             }
             return true;
         }
-        else
+        else                                                                             
         {
             int i = 0;
             RCLCPP_INFO(rclcpp::get_logger("OrthrusEthercat"),"\033[32m Not all slaves reached operational state.\033[0m \n");

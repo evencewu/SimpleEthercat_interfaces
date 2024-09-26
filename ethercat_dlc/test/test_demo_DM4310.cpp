@@ -15,14 +15,14 @@ void safe_stop();
 ecat::EcatBase Ethercat(1);
 
 std::array<ecat::DM4310dlc, 2> MotorDM = {
-    ecat::DM4310dlc(CAN1, 1),
+    ecat::DM4310dlc(CAN1, 3),
     ecat::DM4310dlc(CAN1, 2)};
 
 int main()
 {
     signal(SIGINT, sigint_handler);
-
-    char phy[] = "enp3s0";
+ 
+    char phy[] = "enp5s0";
     Ethercat.EcatStart(phy);
 
     printf("start\n");
@@ -30,12 +30,14 @@ int main()
     
     for (int i = 0; i < 50; i++)
     {
+        Ethercat.packet_tx[0].LED = 0x07;
         MotorDM[0].DM_can_set(&Ethercat.packet_tx[0], ENABLE, 0, 0, 0, 0, 0);
         Ethercat.EcatSyncMsg();
     }
 
     for (int i = 0; i < 50; i++)
     {
+        Ethercat.packet_tx[0].LED = 0x07;
         MotorDM[1].DM_can_set(&Ethercat.packet_tx[0], ENABLE, 0, 0, 0, 0, 0);
         Ethercat.EcatSyncMsg();
     }
@@ -47,7 +49,7 @@ int main()
 
         for (int i = 0; i < 5; i++)
         {
-            MotorDM[0].DM_can_set(&Ethercat.packet_tx[0], MIT_CTRL, 0, 0, 0, 0, 0.5);
+            MotorDM[0].DM_can_set(&Ethercat.packet_tx[0], MIT_CTRL, 0, 0, 0, 0, 1);
             Ethercat.EcatSyncMsg();
         }
 
@@ -56,7 +58,7 @@ int main()
 
         for (int i = 0; i < 5; i++)
         {
-            MotorDM[1].DM_can_set(&Ethercat.packet_tx[0], MIT_CTRL, 0, 0, 0, 0, 0.5);
+            MotorDM[1].DM_can_set(&Ethercat.packet_tx[0], MIT_CTRL, 0, 0, 0, 0, 1);
             Ethercat.EcatSyncMsg();
         }
 
@@ -88,14 +90,14 @@ void sigint_handler(int sig)
 
 void safe_stop()
 {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 20; i++)
     {
         MotorDM[0].DM_can_set(&Ethercat.packet_tx[0], DISABLE, 0, 0, 0, 0, 0);
         Ethercat.packet_tx[0].LED = 0;
         Ethercat.EcatSyncMsg();
     }
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 20; i++)
     {
         MotorDM[1].DM_can_set(&Ethercat.packet_tx[0], DISABLE, 0, 0, 0, 0, 0);
         Ethercat.packet_tx[0].LED = 0;
