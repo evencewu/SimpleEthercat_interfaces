@@ -1,5 +1,4 @@
-#ifndef __ECAT_GM6020__
-#define __ECAT_GM6020__
+#pragma once
 
 #include "ethercat_interfaces/EcatBase.hpp"
 #include "ethercat_interfaces/TypeDef.hpp"
@@ -37,5 +36,3 @@ namespace ecat
         uint32_t motor_id;
     };
 }
-
-#endif

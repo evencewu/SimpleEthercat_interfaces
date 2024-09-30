@@ -1,5 +1,4 @@
-#ifndef __ECAT_DM4310__
-#define __ECAT_DM4310__
+#pragma once
 
 #include "ethercat_interfaces/EcatBase.hpp"
 #include "ethercat_interfaces/TypeDef.hpp"
@@ -72,6 +71,3 @@ namespace ecat
         int16_t I = 0; // Electric current
     };
 }
-
-
-#endif
